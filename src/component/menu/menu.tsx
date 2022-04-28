@@ -37,12 +37,27 @@ class Menu extends React.Component<any, {
     sortBy(graphData: any[]) {
 
         const sortBy = this.state.sortBy
+        let tempGraph: any[];
         switch (sortBy) {
             case "nameAsc":
-                graphData = graphData.sort((a, b) => a.node.seoName - b.node.seoName);
+                graphData = graphData.sort((a, b) =>{ 
+                    const aName= (a.node?.name) ? (a.node.name).toUpperCase().replace(/ /g, ''): "";
+                    const bName= (b.node?.name) ? (b.node.name).toUpperCase().replace(/ /g, '') : "";
+                    const ret= (aName > bName) ? -1 : (aName < bName) ? 1 : 0
+                    return ret;
+                });
+                
                 break;
             case "nameDsc":
-                graphData = graphData.sort((a, b) => (a.node.seoName) - (b.node.seoName)).reverse()
+                graphData = graphData.sort((a, b) =>{ 
+                    const aName= (a.node?.name) ? (a.node.name).toUpperCase().replace(/ /g, ''): "";
+                    const bName= (b.node?.name) ? (b.node.name).toUpperCase().replace(/ /g, '') : "";
+                    const ret= (aName > bName) ? 1 : (aName < bName) ? -1 : 0
+                    return ret;
+                });
+                // console.log(graphData[0].node.name)
+                
+                console.log("graphData"+JSON.stringify(graphData[0]?.node?.name))
                 break;
             case "costLow":
                 graphData = graphData.sort((a, b) => a.node?.pricing?.priceRange?.start?.net?.amount - b.node?.pricing?.priceRange?.start?.net?.amount);
@@ -81,9 +96,8 @@ class Menu extends React.Component<any, {
                     return name.includes(nameSearch)
                 }
             });
-            data = this.sortBy(data);
-
         }
+        data = this.sortBy(data);
 
         return data;
 

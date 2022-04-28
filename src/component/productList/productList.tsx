@@ -35,7 +35,9 @@ class ProductList extends React.Component<{ graphData: any[], currentPage: numbe
             const modalItems = [];
             const nodeId = this.state.modalNodeId;
             const data = this.props.graphData;
+            
             const dataObj = data.filter(obj => { return obj?.node?.id === nodeId });
+            console.log("modal data is "+ JSON.stringify(dataObj));
             const node = dataObj[0].node;
             const rating = (node.rating) ? parseFloat(node.rating).toFixed(1) : "n/a"
             const price = node?.pricing?.priceRange?.start?.net?.amount;
